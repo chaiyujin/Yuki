@@ -1,18 +1,15 @@
 /* -----------------------------
- * log.h
- * Author: Yuki Chai
- * 2016.11.28
- * Project Yuki
- -------------------------------
- * Comments:
- * 1. class or struct use CHECK_OP should 
- *    have the method 'value()' to return
- *    a basic type.
- */
+* File   : log.h
+* Author : Yuki Chai
+* Created: 2016.11.28
+* Project: Yuki
+*/
 
 #pragma once
 #ifndef __YUKI_LOG_H__
 #define __YUKI_LOG_H__
+
+// #define CHECK_LEVEL_NONE // uncomment this line to disable runtime check
 
 #include <stdio.h>
 #include <stdarg.h>
@@ -28,7 +25,7 @@ namespace Yuki {
         LOG_LEVEL_DEBUG, // 5
         LOG_LEVEL_NEVER // 6
     };
-    extern const char * _operations[];
+	extern const char * _operations[];
 #ifndef LOG_BUILD_LEVEL
 #ifdef NDEBUG
 #define LOG_BUILD_LEVEL LOG_LEVEL_LOG
@@ -54,68 +51,46 @@ namespace Yuki {
 #define _EQ 4
 #define _NE 5
 
+#ifndef CHECK_LEVEL_NONE
+#define CHECK(assertion) do {\
+		bool flag = assertion;\
+		if (!flag) {\
+			LOG::error("[%s] (line: %d) : CHECK fail\n", __FUNCTION__, __LINE__);\
+			system("pause");exit(1);\
+		}\
+	} while (0);
+
 #define CHECK_OP(op, x, y) do {\
         bool flag = _compare(op, x, y);\
         if (!flag) {\
-            char _buf[64];\
-            _fill_buf_text(_buf, x, y, _operations[op]);\
-            LOG::error("%s %d: %s \n", __FUNCTION__, __LINE__, _buf);\
+            LOG::error("[%s] (line: %d) : CHECK_OP '%s' \n", __FUNCTION__, __LINE__, _operations[op]);\
+			system("pause");exit(1);\
         }\
     } while (0);
+#else
+#define CHECK(assertion)
+#define CHECK_OP(op, x, y)
+#endif
 
 #define CHECK_LE(x, y) CHECK_OP(_LE, x, y)
-    
-    inline bool _compare(short op, int x, int y) {
-        switch (op) {
-        case _LE: return (x <= y); break;
-        case _LT: return (x <  y); break;
-        case _GE: return (x >= y); break;
-        case _GT: return (x >  y); break;
-        case _EQ: return (x == y); break;
-        case _NE: return (x != y); break;        
-        }
-        return false;
-    }
-    inline bool _compare(short op, float x, float y) {
-        switch (op) {
-        case _LE: return (x <= y); break;
-        case _LT: return (x <  y); break;
-        case _GE: return (x >= y); break;
-        case _GT: return (x >  y); break;
-        case _EQ: return (x == y); break;
-        case _NE: return (x != y); break;        
-        }
-        return false;
-    }
-    inline bool _compare(short op, double x, double y) {
-        switch (op) {
-        case _LE: return (x <= y); break;
-        case _LT: return (x <  y); break;
-        case _GE: return (x >= y); break;
-        case _GT: return (x >  y); break;
-        case _EQ: return (x == y); break;
-        case _NE: return (x != y); break;        
-        }
-        return false;
-    }
-    template <class T>
-    inline bool _compare(short op, T x, T y) {
-        return _compare(op, x.value(), y.value());
-    }
+#define CHECK_LT(x, y) CHECK_OP(_LT, x, y)
+#define CHECK_GE(x, y) CHECK_OP(_GE, x, y)
+#define CHECK_GT(x, y) CHECK_OP(_GT, x, y)
+#define CHECK_EQ(x, y) CHECK_OP(_EQ, x, y)
+#define CHECK_NE(x, y) CHECK_OP(_NE, x, y)
 
-    inline void _fill_buf_text(char *buf, int x, int y, const char *op) {
-        sprintf(buf, "%d %s %d", x, op, y);
-    }
-    inline void _fill_buf_text(char *buf, float x, float y, const char *op) {
-        sprintf(buf, "%f %s %f", x, op, y);
-    }
-    inline void _fill_buf_text(char *buf, double x, double y, const char *op) {
-        sprintf(buf, "%lf %s %lf", x, op, y);
-    }
-    template <class T>
-    inline void _fill_buf_text(char *buf, T x, T y, const char *op) {
-        _fill_buf_text(buf, x.value(), y.value(), op);
-    }
+    template <class T, class U>
+	inline bool _compare(short op, T x, U y) {
+		switch (op) {
+		case _LE: return (x <= y); break;
+		case _LT: return (x < y); break;
+		case _GE: return (x >= y); break;
+		case _GT: return (x > y); break;
+		case _EQ: return (x == y); break;
+		case _NE: return (x != y); break;
+		}
+		return false;
+	}
     
     class LOG {
     private:

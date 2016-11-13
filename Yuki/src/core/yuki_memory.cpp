@@ -1,8 +1,8 @@
 /* -----------------------------
-* yuki_memory.cpp
-* Author: Yuki Chai
-* 2016.11.28
-* Project Yuki
+* File   : yuki_memory.cpp
+* Author : Yuki Chai
+* Created: 2016.11.28
+* Project: Yuki
 */
 #include "yuki_memory.h"
 
