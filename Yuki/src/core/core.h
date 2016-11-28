@@ -1,8 +1,8 @@
 /* -----------------------------
-* core.h
-* Author: Yuki Chai
-* 2016.11.28
-* Project Yuki
+* File   : core.h
+* Author : Yuki Chai
+* Created: 2016.11.28
+* Project: Yuki
 */
 #pragma once
 #ifndef __YUKI_CORE_H__
@@ -31,6 +31,8 @@ typedef double Float;
 #include <stdint.h>
 #include <stdio.h>
 #include <math.h>
+#include <memory>
+using std::shared_ptr;
 
 #include <iostream>
 using std::cout;

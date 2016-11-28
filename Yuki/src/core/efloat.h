@@ -171,7 +171,77 @@ namespace Yuki {
 #endif
 			return os;
 		}
+
+        friend inline EFloat sqrt(EFloat fe);
+        friend inline EFloat abs(EFloat fe);
+        friend inline bool quadratic(EFloat A, EFloat B, EFloat C, EFloat *t0, EFloat *t1);
     };
+
+    inline EFloat sqrt(EFloat fe) {
+        EFloat r;
+        r.v = std::sqrt(fe.v);
+#ifdef DEBUG
+        r.v_precise = std::sqrt(fe.v_precise);
+#endif
+        r.low = next_float_down(std::sqrt(fe.low));
+        r.high = next_float_up (std::sqrt(fe.high));
+        r.check();
+        return r;
+    }
+
+    inline EFloat abs(EFloat fe) {
+        if (fe.low >= 0)
+            // The entire interval is greater than zero, so we're all set.
+            return fe;
+        else if (fe.high <= 0) {
+            // The entire interval is less than zero.
+            EFloat r;
+            r.v = -fe.v;
+#ifdef DEBUG
+            r.v_precise = -fe.v_precise;
+#endif
+            r.low = -fe.high;
+            r.high = -fe.low;
+            r.check();
+            return r;
+        } else {
+            // The interval straddles zero.
+            EFloat r;
+            r.v = std::abs(fe.v);
+#ifdef DEBUG
+            r.v_precise = std::abs(fe.v_precise);
+#endif
+            r.low = 0;
+            r.high = std::max(-fe.low, fe.high);
+            r.check();
+            return r;
+        }
+    }
+    inline EFloat operator*(float f, EFloat fe) { return EFloat(f) * fe; }
+    inline EFloat operator/(float f, EFloat fe) { return EFloat(f) / fe; }
+    inline EFloat operator+(float f, EFloat fe) { return EFloat(f) + fe; }
+    inline EFloat operator-(float f, EFloat fe) { return EFloat(f) - fe; }
+
+    inline bool quadratic(EFloat A, EFloat B, EFloat C, EFloat *t0, EFloat *t1) {
+        // Find quadratic discriminant
+        double discrim = (double)B.v * (double)B.v - 4. * (double)A.v * (double)C.v;
+        if (discrim < 0.) return false;
+        double root_discrim = std::sqrt(discrim);
+
+        EFloat float_root_discrim(root_discrim, MachineEpsilon * root_discrim);
+
+        // Compute quadratic _t_ values
+        EFloat q;
+        if ((Float)B < 0)
+            q = -.5 * (B - float_root_discrim);
+        else
+            q = -.5 * (B + float_root_discrim);
+        *t0 = q / A;
+        *t1 = C / q;
+        if ((Float)*t0 > (Float)*t1) std::swap(*t0, *t1);
+        return true;
+    }
+
 }
 
 #endif  // !__YUKI_EFLOAT_H__

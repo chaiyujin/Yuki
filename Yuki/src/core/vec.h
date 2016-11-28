@@ -241,7 +241,7 @@ namespace Yuki {
 			return (Float)(x * x + y * y + z * z);
 		}
 		Float length() const {
-			return (Float)(sqrt(length_squared()));
+			return (Float)(std::sqrt(length_squared()));
 		}
 
 		/* print method */
@@ -253,6 +253,24 @@ namespace Yuki {
 		}
 #endif
 	};
+
+    template <class T>
+    inline vec2<T> operator*(Float f, const vec2<T> v) {
+        return v * f;
+    }
+    template <class T>
+    inline vec3<T> operator*(Float f, const vec3<T> v) {
+        return v * f;
+    }
+
+    template <class T>
+    inline vec2<T> abs(const vec2<T> &v) {
+        return vec2<T>(std::abs(v.x), std::abs(v.y));
+    }
+    template <class T>
+    inline vec3<T> abs(const vec3<T> &v) {
+        return vec3<T>(std::abs(v.x), std::abs(v.y), std::abs(v.z));
+    }
 }
 
 #endif  // !__YUKI_VEC_H__

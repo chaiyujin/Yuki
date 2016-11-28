@@ -34,8 +34,6 @@ namespace Yuki {
 #endif
 	};
 
-	inline Vector operator*(Float f, const Vector &v) { return v * f; }
-
 
 	/* Point */
 	class Point : public vec3<Float> {
@@ -54,9 +52,6 @@ namespace Yuki {
 #endif
 	};
 
-	inline Point operator*(Float f, const Point &p) {
-		return p * f;
-	}
 	inline Float distance(const Point &p1, const Point &p2) {
 		return (p1 - p2).length();
 	}
@@ -76,31 +71,22 @@ namespace Yuki {
 
 	};
 
-	inline Normal operator*(Float f, const Normal &n) {
-		return n * f;
-	}
 	inline Normal face_forward(const Normal &n, const Vector &v) {
-		return ((n * v) < 0.f) ? -n : n;
+		if ((n * v) < 0.f) return -n; else return n;
 	}
 
 	class Ray {
 	public:
 		Point o;
 		Vector d;
-		mutable Float min_t, max_t;
+		mutable Float max_t;
 		Float time;
-		int   depth;
 
-		Ray() : min_t(0.f), max_t(INFINITY), time(0.f), depth(0) {}
-		Ray(const Point &origin, const Vector &direction,
-			Float start = 0.f, Float end = INFINITY, Float t = 0.f, int d = 0)
-			: o(origin), d(direction), min_t(start), max_t(end), time(t), depth(d) {}
-		Ray(const Point &origin, const Vector &direction,
-			const Ray &parent, Float start = 0.f, Float end = INFINITY)
-			: o(origin), d(direction), min_t(start), max_t(end),
-			time(parent.time), depth(parent.depth + 1) {}
+        Ray() : max_t(Infinity), time(0.f) {}
+        Ray(const Point &o, const Vector &d, Float t_max = Infinity, Float time = 0.f)
+            : o(o), d(d), max_t(t_max), time(time) {}
+
 		Point operator()(Float t) const {
-			t = clamp(t, min_t, max_t);
 			return o + d * t;
 		}
 	};
@@ -114,13 +100,8 @@ namespace Yuki {
 		// constructors
 		RayDifferential() { has_differentials = false; }
 		RayDifferential(const Point &org, const Vector &dir,
-			Float start = 0, Float end = INFINITY, Float t = 0.f, int d = 0)
-			: Ray(org, dir, start, end, t, d) {
-			has_differentials = false;
-		}
-		RayDifferential(const Point &org, const Vector &dir, const Ray &parent,
-			Float start = 0.f, Float end = INFINITY)
-			: Ray(org, dir, start, end, parent.time, parent.depth + 1) {
+			Float end = INFINITY, Float t = 0.f)
+			: Ray(org, dir, end, t) {
 			has_differentials = false;
 		}
 		explicit RayDifferential(const Ray & ray) : Ray(ray) {
@@ -224,6 +205,30 @@ namespace Yuki {
 	BBox union_BBox(const BBox &b, const Point &p);
 	BBox union_BBox(const BBox &b1, const BBox &b2);
 	BBox intersect_BBox(const BBox &b1, const BBox &b2);
+
+    // pbrt-v3 implement
+    inline Point offset_ray_origin(const Point &p, const Vector &p_error,
+                                   const Normal &n, const Vector &w) {
+        Float d = (abs(n) * p_error);
+
+        // We have tons of precision; for now bump up the offset a bunch just
+        // to be extra sure that we start on the right side of the surface
+        // (In case of any bugs in the epsilons code...)
+        if (sizeof(Float) >= sizeof(double)) {
+            d *= 1024.;
+        }
+        Vector offset = d * Vector(n);
+        if ((w * n) < 0) offset = -offset;
+        Point po = p + offset;
+        // Round offset point _po_ away from _p_
+        for (int i = 0; i < 3; ++i) {
+            if (offset[i] > 0)
+                po[i] = next_float_up(po[i]);
+            else if (offset[i] < 0)
+                po[i] = next_float_down(po[i]);
+        }
+        return po;
+    }
 }
 
 #endif  // !__YUKI_GEOMETRY_H__

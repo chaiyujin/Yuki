@@ -19,6 +19,18 @@
     <Filter Include="Source Files\core">
       <UniqueIdentifier>{4e3a084d-61ad-4edd-9a52-0e895b2db87b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\shape">
+      <UniqueIdentifier>{80e1208d-b8d0-4f6d-97a8-0df959f63a5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\shape">
+      <UniqueIdentifier>{a2308cfa-846e-4997-a998-c78e1c63b5eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\wrapper">
+      <UniqueIdentifier>{44ca12ff-5d55-42bf-905a-bd650f21fcf4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\wrapper">
+      <UniqueIdentifier>{d83feb93-6c6f-4da5-93db-771377bc84ad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -32,6 +44,18 @@
     </ClCompile>
     <ClCompile Include="src\core\geometry.cpp">
       <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\shape.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\transform.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\shape\sphere.cpp">
+      <Filter>Source Files\shape</Filter>
+    </ClCompile>
+    <ClCompile Include="src\wrapper\primitive.cpp">
+      <Filter>Source Files\wrapper</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -52,6 +76,24 @@
     </ClInclude>
     <ClInclude Include="src\core\geometry.h">
       <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\random.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\shape.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\transform.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\shape\sphere.h">
+      <Filter>Header Files\shape</Filter>
+    </ClInclude>
+    <ClInclude Include="src\wrapper\intersection.h">
+      <Filter>Header Files\wrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="src\wrapper\primitive.h">
+      <Filter>Header Files\wrapper</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
