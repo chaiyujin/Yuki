@@ -32,12 +32,10 @@ typedef double Float;
 #include <stdio.h>
 #include <math.h>
 
-#ifdef DEBUG
 #include <iostream>
 using std::cout;
 using std::endl;
 using std::ostream;
-#endif
 
 namespace Yuki {
     // Global simple functions
@@ -51,7 +49,7 @@ namespace Yuki {
 
     template <class T>
     inline T lerp(Float t, T v1, T v2) {
-        return (1.f - t) * v1 + t * v2;
+        return T((1.f - t) * v1 + t * v2);
     }
 
     template <class T>
@@ -61,7 +59,7 @@ namespace Yuki {
     }
 
     inline Float radians(Float x) {
-        return x / 180.f * M_PI;
+        return Float(x / 180.f * M_PI);
     }
 
     // float

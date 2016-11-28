@@ -1,15 +1,16 @@
+
 #include <log.h>
 #include <core.h>
-#include <yuki_memory.h>
-#include <iostream>
 #include <efloat.h>
+#include <vec.h>
+#include <yuki_memory.h>
+#include <geometry.h>
+#include <iostream>
 using namespace std;
 using namespace Yuki;
 
 int main(int argc, char* argv[]) {
-    EFloat x(10);
-    EFloat y(20);
-    cout << (x / y).precise_value() << endl;
+	Vector v(2, 2, 3);
     system("pause");
     return 0;
 }

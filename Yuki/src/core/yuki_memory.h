@@ -1,8 +1,8 @@
 /* -----------------------------
-* yuki_memory.h
-* Author: Yuki Chai
-* 2016.11.28
-* Project Yuki
+* File   : yuki_memory.h
+* Author : Yuki Chai
+* Created: 2016.11.28
+* Project: Yuki
 */
 #pragma once
 #ifndef __YUKI_MEMORY_H__
