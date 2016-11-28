@@ -150,9 +150,13 @@
   <ItemGroup>
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="src\core\log.cpp" />
+    <ClCompile Include="src\core\yuki_memory.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\core\core.h" />
+    <ClInclude Include="src\core\efloat.h" />
     <ClInclude Include="src\core\log.h" />
+    <ClInclude Include="src\core\yuki_memory.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
