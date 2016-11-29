@@ -22,7 +22,7 @@ namespace Yuki {
     }
 
     bool GeometricPrimitive::intersect(const Ray &r, Intersection *isect) const {
-        Float t_hit, ray_epsilon;
+        Float t_hit;
         if (!shape->intersect(r, &t_hit, isect)) 
             return false;
         
@@ -50,7 +50,7 @@ namespace Yuki {
             shared_ptr<Shape> sphere(new Sphere(object_to_world,  world_to_object, false, radius, -radius, radius, 360.f));
             sphere->emission = vec3<Float>(args[4], args[5], args[6]);
             sphere->color    = vec3<Float>(args[7], args[8], args[9]);
-            sphere->reflect_type = args[10];
+            sphere->reflect_type = (int)args[10];
             GeometricPrimitive *p = new GeometricPrimitive(sphere);
             ret = shared_ptr<Primitive>(p);
         }

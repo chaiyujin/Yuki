@@ -33,7 +33,7 @@ vec3<Float> radiance(const Ray &r, int depth, Random &rand) {
     Vector position;
     double t;
     bool intersect_ = false;
-    for (int i = 0; i < prims.size(); ++i) {
+    for (uint32_t i = 0; i < prims.size(); ++i) {
         if (prims[i]->intersect_p(r)) {
             prims[i]->intersect(r, &insect);
             position.x = params[i][1];
@@ -49,7 +49,11 @@ vec3<Float> radiance(const Ray &r, int depth, Random &rand) {
         nl = (n * r.d < 0) ? n : -n;
     vec3<Float> f = insect.color;
     double p = f.x>f.y && f.x>f.z ? f.x : f.y>f.z ? f.y : f.z; // max refl
-    if (++depth>5) if (rand.random()<p) f=f*(1/p); else return insect.emission; //R.R. 
+    if (++depth>5) {
+        if (rand.random() < p) 
+            f=f*(1/p);
+        else return insect.emission;
+    } //R.R.
     if (depth > 7) return insect.emission;
     if (insect.refl_t == 0) {// diff
         double r1 = 2 * M_PI * rand.random(),
@@ -91,7 +95,7 @@ int main() {
     Vector cy = (cx ^ cam.d).normalized() * .5135;
     vec3<Float> r;
     vec3<Float> *c = new vec3<Float>[w * h];
-#pragma omp parallel for schedule(dynamic, 1) private(r)       // OpenMP
+//#pragma omp parallel for schedule(dynamic, 1) private(r)       // OpenMP
     for (int y = 0; y < h; y++) {
         fprintf(stderr,"\rRendering (%d spp) %5.2f%%",samps*4,100.*y/(h-1));
         for (unsigned short x = 0; x < w; x++) {
@@ -114,7 +118,8 @@ int main() {
         }
     }
 
-    FILE *f = fopen("image.ppm", "w");         // Write image to PPM file. 
+    FILE *f;
+    fopen_s(&f, "image.ppm", "w");         // Write image to PPM file. 
     fprintf(f, "P3\n%d %d\n%d\n", w, h, 255); 
     for (int i=0; i<w*h; i++) 
         fprintf(f,"%d %d %d ", toInt(c[i].x), toInt(c[i].y), toInt(c[i].z));    

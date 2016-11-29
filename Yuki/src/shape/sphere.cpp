@@ -13,17 +13,16 @@ namespace Yuki {
         radius = rad;
         z_min = clamp(std::min(z0, z1), -radius, radius);
         z_max = clamp(std::max(z0, z1), -radius, radius);
-        theta_min = acosf(clamp(z_min / radius, -1.f, 1.f));
-        theta_max = acosf(clamp(z_max / radius, -1.f, 1.f));
+        theta_min = (Float)std::acos(clamp(z_min / radius, -1.f, 1.f));
+        theta_max = (Float)std::acos(clamp(z_max / radius, -1.f, 1.f));
         phi_max = radians(clamp(pm, 0.f, 360.f));
     }
 
     Sphere::Sphere(const Sphere &sp) : 
         Shape(sp),
-        radius(sp.radius), z_min(sp.z_min), z_max(sp.z_max), 
-        theta_min(sp.theta_min), theta_max(sp.theta_max),
-        phi_max(sp.phi_max) {
-    }
+        radius(sp.radius), phi_max(sp.phi_max),
+        z_min(sp.z_min), z_max(sp.z_max), 
+        theta_min(sp.theta_min), theta_max(sp.theta_max) {}
 
     BBox Sphere::object_bound() const {
         return BBox(Point(-radius, -radius, z_min),

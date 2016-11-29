@@ -363,12 +363,12 @@ namespace Yuki {
         static Transform rotate_x(Float angle, bool is_radians = false) {
             Float sin_t, cos_t;
             if (is_radians) {
-                sin_t = sinf(angle);
-                cos_t = cosf(angle);
+                sin_t = (Float)std::sin(angle);
+                cos_t = (Float)std::cos(angle);
             }
             else {
-                sin_t = sinf(radians(angle));
-                cos_t = cosf(radians(angle));
+                sin_t = (Float)std::sin(radians(angle));
+                cos_t = (Float)std::cos(radians(angle));
             }
             Matrix4x4 m(
                 1, 0, 0, 0,
@@ -380,12 +380,12 @@ namespace Yuki {
         static Transform rotate_y(Float angle, bool is_radians = false) {
             Float sin_t, cos_t;
             if (is_radians) {
-                sin_t = sinf(angle);
-                cos_t = cosf(angle);
+                sin_t = (Float)std::sin(angle);
+                cos_t = (Float)std::cos(angle);
             }
             else {
-                sin_t = sinf(radians(angle));
-                cos_t = cosf(radians(angle));
+                sin_t = (Float)std::sin(radians(angle));
+                cos_t = (Float)std::cos(radians(angle));
             }
             Matrix4x4 m(
                 cos_t, 0,  sin_t, 0,
@@ -397,12 +397,12 @@ namespace Yuki {
         static Transform rotate_z(Float angle, bool is_radians = false) {
             Float sin_t, cos_t;
             if (is_radians) {
-                sin_t = sinf(angle);
-                cos_t = cosf(angle);
+                sin_t = (Float)std::sin(angle);
+                cos_t = (Float)std::cos(angle);
             }
             else {
-                sin_t = sinf(radians(angle));
-                cos_t = cosf(radians(angle));
+                sin_t = (Float)std::sin(radians(angle));
+                cos_t = (Float)std::cos(radians(angle));
             }
             Matrix4x4 m(
                 cos_t, -sin_t, 0, 0,
@@ -415,12 +415,12 @@ namespace Yuki {
             Vector a = axis.normalized();
             Float s, c;
             if (is_radians) {
-                s = sinf(angle);
-                c = cosf(angle);
+                s = (Float)std::sin(angle);
+                c = (Float)std::cos(angle);
             }
             else {
-                s = sinf(radians(angle));
-                c = cosf(radians(angle));
+                s = (Float)std::sin(radians(angle));
+                c = (Float)std::cos(radians(angle));
             }
             Float m[4][4];
 
@@ -565,7 +565,7 @@ namespace Yuki {
         friend Float dot(const Quaternion &, const Quaternion &);
         Quaternion normalized() {
             Quaternion &q = *this;
-            return q / sqrtf(dot(q, q));
+            return q / (Float)std::sqrt(dot(q, q));
         }
 
         // convert

@@ -28,7 +28,7 @@ namespace Yuki {
 			high = ef.high;
 			check();
 		}
-        EFloat(float v, float err = 0.f) : v(v) {
+        EFloat(Float v, Float err = 0.f) : v(v) {
             if (err == 0.) {
                 low = high = v;
             }
@@ -228,7 +228,7 @@ namespace Yuki {
         if (discrim < 0.) return false;
         double root_discrim = std::sqrt(discrim);
 
-        EFloat float_root_discrim(root_discrim, MachineEpsilon * root_discrim);
+        EFloat float_root_discrim((Float)root_discrim, (Float)(MachineEpsilon * root_discrim));
 
         // Compute quadratic _t_ values
         EFloat q;

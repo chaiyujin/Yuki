@@ -5,7 +5,7 @@
 #include <core.h>
 
 namespace Yuki {
-    struct Intersection {
+    class Intersection {
     public:
         Point p;
         Float time;

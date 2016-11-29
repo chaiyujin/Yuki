@@ -144,7 +144,7 @@ namespace Yuki {
         if (trace > 0.f) {
             // Compute w from matrix trace, then xyz
             // 4w^2 = m[0][0] + m[1][1] + m[2][2] + m[3][3] (but m[3][3] == 1)
-            s = sqrtf(trace + 1.0f);
+            s = (Float)std::sqrt(trace + 1.0f);
             w = s / 2.0f;
             s = 0.5f / s;
             v.x = (m.m[2][1] - m.m[1][2]) * s;
@@ -158,7 +158,7 @@ namespace Yuki {
             switch (h) {
 #define caseMacro(i, j, k, I, J, K) \
 			case I:\
-				s = sqrtf((m.m[I][I] - (m.m[J][J] + m.m[K][K])) + m.m[3][3]);\
+				s = (Float)std::sqrt((m.m[I][I] - (m.m[J][J] + m.m[K][K])) + m.m[3][3]);\
 				v.i = s * 0.5f;\
 				s = 0.5f / s;\
 				v.j = (m.m[I][J] + m.m[J][I]) * s;\
@@ -208,10 +208,10 @@ namespace Yuki {
         if (cos_theta > .99995f)
             return ((1.f - t) * q1 + t * q2).normalized();
         else {
-            Float theta = acosf(clamp(cos_theta, -1.f, 1.f));
+            Float theta = (Float)std::acos(clamp(cos_theta, -1.f, 1.f));
             Float thetap = theta * t;
             Quaternion qperp = (q2 - q1 * cos_theta).normalized();
-            return q1 * cosf(thetap) + qperp * sinf(thetap);
+            return q1 * (Float)std::cos(thetap) + qperp * (Float)std::sin(thetap);
         }
     }
 

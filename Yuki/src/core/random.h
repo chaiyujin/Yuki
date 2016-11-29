@@ -16,11 +16,13 @@
 #include <time.h>
 #include <stdlib.h>
 
-// delete some define
-#ifdef min(a, b)
-#undef min(a, b)
-#undef max(a, b)
+// necessary to undefine min, max
+// conflict with std::min, std::max
+#ifdef min
+#undef min
+#undef max
 #endif
+
 namespace Yuki {
     const DWORD rand_dw_length = 2;
     class Random {
@@ -40,7 +42,7 @@ namespace Yuki {
                 &h_provider, 0, 0,
                 PROV_RSA_FULL, 
                 CRYPT_VERIFYCONTEXT | CRYPT_SILENT);
-            CHECK(result);
+            CHECK(result != 0);
         }
 
         void close() {
