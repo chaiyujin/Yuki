@@ -26,7 +26,7 @@ namespace Yuki {
 
     BBox Sphere::object_bound() const {
         return BBox(Point(-radius, -radius, z_min),
-            Point( radius,  radius, z_max));
+                    Point( radius,  radius, z_max));
     }
 
     bool Sphere::intersect(const Ray &r, Float *t_hit, Intersection *isect) const {
@@ -101,6 +101,10 @@ namespace Yuki {
     }
 
     bool Sphere::intersect_p(const Ray &r) const {
+        BBox b_box = this->world_bound();
+        Float bt0, bt1;
+        if (!b_box.intersect_p(r, &bt0, &bt1)) return false;
+
         Float phi;
         Point p_hit;
         // Transform _Ray_ to object space

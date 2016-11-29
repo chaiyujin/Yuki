@@ -89,13 +89,13 @@ int main() {
         prims.push_back(make_shape("sphere", params[i]));
     }
 
-    int w = 1024, h = 768, samps = 16;
+    int w = 1024, h = 768, samps = 4;
     Ray cam(Point(50, 52, 295.6), Vector(0, -0.042612, -1).normalized());
     Vector cx(w * .5135/h, 0, 0);
     Vector cy = (cx ^ cam.d).normalized() * .5135;
     vec3<Float> r;
     vec3<Float> *c = new vec3<Float>[w * h];
-//#pragma omp parallel for schedule(dynamic, 1) private(r)       // OpenMP
+#pragma omp parallel for schedule(dynamic, 1) private(r)       // OpenMP
     for (int y = 0; y < h; y++) {
         fprintf(stderr,"\rRendering (%d spp) %5.2f%%",samps*4,100.*y/(h-1));
         for (unsigned short x = 0; x < w; x++) {
