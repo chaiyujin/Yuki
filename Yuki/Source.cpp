@@ -34,8 +34,7 @@ vec3<Float> radiance(const Ray &r, int depth, Random &rand) {
     double t;
     bool intersect_ = false;
     for (uint32_t i = 0; i < prims.size(); ++i) {
-        if (prims[i]->intersect_p(r)) {
-            prims[i]->intersect(r, &insect);
+        if (prims[i]->intersect_p(r) && prims[i]->intersect(r, &insect)) {
             position.x = params[i][1];
             position.y = params[i][2];
             position.z = params[i][3];
@@ -89,7 +88,7 @@ int main() {
         prims.push_back(make_shape("sphere", params[i]));
     }
 
-    int w = 1024, h = 768, samps = 4;
+    int w = 320, h = 240, samps = 1024;
     Ray cam(Point(50, 52, 295.6), Vector(0, -0.042612, -1).normalized());
     Vector cx(w * .5135/h, 0, 0);
     Vector cy = (cx ^ cam.d).normalized() * .5135;

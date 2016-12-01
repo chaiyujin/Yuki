@@ -64,7 +64,7 @@ namespace Yuki {
         p_hit *= radius / distance(p_hit, Point(0, 0, 0));
         if (p_hit.x == 0 && p_hit.y == 0) p_hit.x = 1e-5f * radius;
         phi = std::atan2(p_hit.y, p_hit.x);
-        if (phi < 0) phi += 2 * M_PI;
+        if (phi < 0) phi += (Float)(2. * M_PI);
 
         // Test sphere intersection against clipping parameters
         if ((z_min > -radius && p_hit.z < z_min) || (z_max < radius && p_hit.z > z_max) ||
@@ -79,7 +79,7 @@ namespace Yuki {
             p_hit *= radius / distance(p_hit, Point(0, 0, 0));
             if (p_hit.x == 0 && p_hit.y == 0) p_hit.x = 1e-5f * radius;
             phi = std::atan2(p_hit.y, p_hit.x);
-            if (phi < 0) phi += 2 * M_PI;
+            if (phi < 0) phi += (Float)(2. * M_PI);
             if ((z_min > -radius && p_hit.z < z_min) ||
                 (z_max < radius && p_hit.z > z_max) || phi > phi_max)
                 return false;
@@ -101,65 +101,14 @@ namespace Yuki {
     }
 
     bool Sphere::intersect_p(const Ray &r) const {
-        BBox b_box = this->world_bound();
         Float bt0, bt1;
-        if (!b_box.intersect_p(r, &bt0, &bt1)) return false;
-
-        Float phi;
-        Point p_hit;
+        //BBox b_box = this->world_bound();
+        //if (!b_box.intersect_p(r, &bt0, &bt1)) return false;
         // Transform _Ray_ to object space
+        BBox b_box = this->object_bound();
         Vector o_err, d_err;
         Ray ray = (*world_to_object)(r, &o_err, &d_err);
-
-        // Compute quadratic sphere coefficients
-
-        // Initialize _EFloat_ ray coordinate values
-        EFloat ox(ray.o.x, o_err.x), oy(ray.o.y, o_err.y), oz(ray.o.z, o_err.z);
-        EFloat dx(ray.d.x, d_err.x), dy(ray.d.y, d_err.y), dz(ray.d.z, d_err.z);
-        EFloat a = dx * dx + dy * dy + dz * dz;
-        EFloat b = 2 * (dx * ox + dy * oy + dz * oz);
-        EFloat c = ox * ox + oy * oy + oz * oz - EFloat(radius) * EFloat(radius);
-
-        // Solve quadratic equation for _t_ values
-        EFloat t0, t1;
-        if (!quadratic(a, b, c, &t0, &t1)) return false;
-
-        // Check quadric shape _t0_ and _t1_ for nearest intersection
-        if (t0.upper_bound() > ray.max_t || t1.lower_bound() <= 0) return false;
-        EFloat t_shape_hit = t0;
-        if (t_shape_hit.lower_bound() <= 0) {
-            t_shape_hit = t1;
-            if (t_shape_hit.upper_bound() > ray.max_t) return false;
-        }
-
-        // Compute sphere hit position and $\phi$
-        p_hit = ray((Float)t_shape_hit);
-
-        // Refine sphere intersection point
-        p_hit *= radius / distance(p_hit, Point(0, 0, 0));
-        if (p_hit.x == 0 && p_hit.y == 0) p_hit.x = 1e-5f * radius;
-        phi = std::atan2(p_hit.y, p_hit.x);
-        if (phi < 0) phi += 2 * M_PI;
-
-        // Test sphere intersection against clipping parameters
-        if ((z_min > -radius && p_hit.z < z_min) || (z_max < radius && p_hit.z > z_max) ||
-            phi > phi_max) {
-            if (t_shape_hit == t1) return false;
-            if (t1.upper_bound() > ray.max_t) return false;
-            t_shape_hit = t1;
-            // Compute sphere hit position and $\phi$
-            p_hit = ray((Float)t_shape_hit);
-
-            // Refine sphere intersection point
-            p_hit *= radius / distance(p_hit, Point(0, 0, 0));
-            if (p_hit.x == 0 && p_hit.y == 0) p_hit.x = 1e-5f * radius;
-            phi = std::atan2(p_hit.y, p_hit.x);
-            if (phi < 0) phi += 2 * M_PI;
-            if ((z_min > -radius && p_hit.z < z_min) ||
-                (z_max < radius && p_hit.z > z_max) || phi > phi_max)
-                return false;
-        }
-
+        if (!b_box.intersect_p(ray, &bt0, &bt1)) return false;
         return true;
     }
 

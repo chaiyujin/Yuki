@@ -47,7 +47,11 @@ namespace Yuki {
 		Float t0 = 0, t1 = ray.max_t;
 		for (int i = 0; i < 3; ++i) {
 			// Update interval for _i_th bounding box slab
-			Float inv_ray_dir = 1 / ray.d[i];
+			Float inv_ray_dir;
+            if (ray.d[i] == 0) {
+                inv_ray_dir = 1 / std::numeric_limits<Float>::epsilon();
+            }
+            else inv_ray_dir = 1 / ray.d[i];
 			Float t_near = (p_min[i] - ray.o[i]) * inv_ray_dir;
 			Float t_far  = (p_max[i] - ray.o[i]) * inv_ray_dir;
 

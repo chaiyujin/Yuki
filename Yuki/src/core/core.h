@@ -65,7 +65,7 @@ namespace Yuki {
     }
 
     // float
-#define MachineEpsilon (std::numeric_limits<Float>::epsilon() * 0.5)
+#define MachineEpsilon (std::numeric_limits<Float>::epsilon() * (Float)0.5)
 #define Infinity       std::numeric_limits<Float>::infinity()
     inline uint32_t float_to_bits(float f) {
         uint32_t ui;
