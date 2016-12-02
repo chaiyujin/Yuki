@@ -150,6 +150,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="src\accel\bvh.cpp" />
     <ClCompile Include="src\core\geometry.cpp" />
     <ClCompile Include="src\core\log.cpp" />
     <ClCompile Include="src\core\shape.cpp" />
@@ -159,6 +160,7 @@
     <ClCompile Include="src\wrapper\primitive.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\accel\bvh.h" />
     <ClInclude Include="src\core\core.h" />
     <ClInclude Include="src\core\efloat.h" />
     <ClInclude Include="src\core\geometry.h" />
