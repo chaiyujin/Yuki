@@ -57,6 +57,9 @@
     <ClCompile Include="src\wrapper\primitive.cpp">
       <Filter>Source Files\wrapper</Filter>
     </ClCompile>
+    <ClCompile Include="bvh.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\log.h">
@@ -94,6 +97,9 @@
     </ClInclude>
     <ClInclude Include="src\wrapper\primitive.h">
       <Filter>Header Files\wrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="bvh.h">
+      <Filter>Header Files\core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
