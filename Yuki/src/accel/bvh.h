@@ -33,13 +33,23 @@ namespace Yuki {
     class BVH {
     private:
         BVHNode *root;
+        Ray     ray;
+        shared_ptr<Primitive> primitive;
+        Intersection insect;
+        void transverse(BVHNode *root, bool (BVH::*operation)(BVHNode *&));
+        // operation
+        bool delete_op(BVHNode *&node);
+        bool intersect_op(BVHNode *&node); 
     public:
         BVH() : root(NULL) {}
-        BVH(const vector<shared_ptr<Primitive> > &prim_list) { build(prim_list); }
+        BVH(const vector<shared_ptr<Primitive> > &prim_list) : root(NULL) { build(prim_list); }
         ~BVH() {}
 
         bool build(const vector<shared_ptr<Primitive> > &prim_list);
+        bool intersect(const Ray &r);
         void clear();
+        shared_ptr<Primitive> get_intersected_primitive() { return primitive; }
+        
     };
 }
 #endif

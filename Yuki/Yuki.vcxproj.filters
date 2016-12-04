@@ -31,6 +31,12 @@
     <Filter Include="Source Files\wrapper">
       <UniqueIdentifier>{d83feb93-6c6f-4da5-93db-771377bc84ad}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\accel">
+      <UniqueIdentifier>{694cfd5a-9409-48f1-b3a3-2eec93a80003}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\accel">
+      <UniqueIdentifier>{f54d26a3-d86f-40e1-9774-1cbe868ac1aa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -57,8 +63,8 @@
     <ClCompile Include="src\wrapper\primitive.cpp">
       <Filter>Source Files\wrapper</Filter>
     </ClCompile>
-    <ClCompile Include="bvh.cpp">
-      <Filter>Source Files\core</Filter>
+    <ClCompile Include="src\accel\bvh.cpp">
+      <Filter>Source Files\accel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -98,8 +104,8 @@
     <ClInclude Include="src\wrapper\primitive.h">
       <Filter>Header Files\wrapper</Filter>
     </ClInclude>
-    <ClInclude Include="bvh.h">
-      <Filter>Header Files\core</Filter>
+    <ClInclude Include="src\accel\bvh.h">
+      <Filter>Header Files\accel</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
