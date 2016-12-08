@@ -51,7 +51,7 @@ namespace Yuki {
     void DirBrowser::dfs_find_files(bool recursive) {
         string old_path = cur_abs_path;
 
-        long handle;
+        intptr_t handle;
         _finddata_t info;
         if ((handle = _findfirst(pattern.c_str(), &info)) != -1) {
             // find the first
