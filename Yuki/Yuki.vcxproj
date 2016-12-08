@@ -71,7 +71,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>./src/core;./src/shape;./src/wrapper;$(IncludePath)</IncludePath>
+    <IncludePath>./src/core;./src/shape;./src/wrapper;./src/utils;$(IncludePath)</IncludePath>
     <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -79,7 +79,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>./src/core;./src/shape;./src/wrapper;$(IncludePath)</IncludePath>
+    <IncludePath>./src/core;./src/shape;./src/wrapper;./src/utils;$(IncludePath)</IncludePath>
     <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -157,6 +157,7 @@
     <ClCompile Include="src\core\transform.cpp" />
     <ClCompile Include="src\core\yuki_memory.cpp" />
     <ClCompile Include="src\shape\sphere.cpp" />
+    <ClCompile Include="src\utils\directory.cpp" />
     <ClCompile Include="src\wrapper\primitive.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -171,6 +172,7 @@
     <ClInclude Include="src\core\vec.h" />
     <ClInclude Include="src\core\yuki_memory.h" />
     <ClInclude Include="src\shape\sphere.h" />
+    <ClInclude Include="src\utils\directory.h" />
     <ClInclude Include="src\wrapper\intersection.h" />
     <ClInclude Include="src\wrapper\primitive.h" />
   </ItemGroup>

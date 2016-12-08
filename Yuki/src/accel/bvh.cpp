@@ -14,7 +14,7 @@ namespace Yuki {
     }
 
     bool BVH::intersect(const Ray &r) {
-        if (!root) return;
+        if (!root) return false;
         ray = r;
         // transverse to update primitive;
         transverse(root, &BVH::intersect_op);
